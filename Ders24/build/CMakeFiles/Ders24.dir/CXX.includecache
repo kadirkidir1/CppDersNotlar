@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/abdulkadir/CppDersNotlari/Ders24/Car.h
+iostream
+-
+string
+-
+random
+-
+
+/home/abdulkadir/CppDersNotlari/Ders24/main.cpp
+iostream
+-
+string
+-
+random
+-
+Car.h
+/home/abdulkadir/CppDersNotlari/Ders24/Car.h
+

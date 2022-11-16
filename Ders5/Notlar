@@ -1,0 +1,156 @@
+- Bir fonksiyonun constexpr olması için belli şartlar var. İleriki
+derslerde anlatılacak.
+- Normal fonksiyonlara göre kısıtlamaları var ama giderek kalkıyor.
+- Verimi en fazla arttıran etkenlerden birisi constexpr. Çünkü runtime'da
+  çalışmıyorlar. Compile time'da çalışıyorlar.
+- constexpr genelde header file'da olur.
+- ADL : Argument Departmant Lookup
+- One Definition Rule: ODR : Eğer birden fazla definition olursa ya
+  syntax hatası alınır ya da link zamanında ya da hata almayız ama inform olur.
+  Tanımsız davranış.
+- Bir fonksiyonun tanımını asla başlık dosyasıa koyma.
+- İnline fonksiyonlar!!! Henüz anlatmadı ama ODR için kullanılıyormuş.
+- Foksiynun inline olması ODR'yi ihlal etmediği anlamına gelir.
+- Header'da inline int x = 10; tanımlaması yapılırsa ve header
+  birden fazla kez çağırılırsa ODR ihlal edilmez. Çünkü inline olduğundan
+  1 tane görülür.
+- Constexpr fonksiyonlar inline fonksiyonlarla implicitly. Yani inline yerine
+  constexpr kullanabiliriz.
+- Constexpr değişkenler const olduğudndan atama yapılamaz.
+- decltype(x) ile constexpr çağırılırsa, dönen cevap const olur. x constexpr
+
+ FUNCTION OVERLOADING
+    Aşırı yükleme. Neco sadece yüklenme olarak kullanıyor. C dilinde
+ olmayan bir araç. Modern prg dillerinin çoğunda olan bir araç. İsimleri
+ aynı olan fonksiyonlar bir arada bulunabilirler. Bunu F overloading denir.
+ Çalışma zamanıyla ilgisi yok. Compile time'da koşuyor. Programcının işini
+ kolaylaştırmak için var. C'de abs, fabs,labs var. Ama hepsi mutlak değer
+ hesaplıyor, çünkü dilde F Overloading yok.
+
+    Eğer fonksiyona yapılan çağrı derleyici tarafından derleme zamanında
+ anlaşılıyorsa buna static binding, early binding deniyor. Ama çalışma
+ zamanında anlaşılıyorsa dynamic&late binding deniyor. Function overloading
+ Static Binding.
+
+ Func overload Resolution: karmaşık bir süreçte derleyici fonksiyona yapılan
+ çağrının hangi fonksiyona bağlanacağını belirliyor.
+
+ std::cout nesnesi function overloading'e bir örnektir.
+ std:: cout << 10 ile std::cout << 1.0 aynı fonksiyonları çağırmaz. Overload
+
+ F_Overload olması için bazı koşulların sağlanması gerekir. 2 tane önemli koşul.
+ 1) aynı scope'ta bildirilmiş olmalılar.
+ 2) İmzaları(signature) farklı olmalı. Fonksiyonun paremetrik yapısı.
+ int func(int,int,int) --> imzaya geri dönüş değeri dahil değil.
+
+ Hangi durumlar overload değil?
+ - Scope'lar farklıysa overloading yok. Name hiding, shadowing...
+ Bir fonksiyonu global'de bildirsek, dğerini main içerisinde bildirsek burada
+ overloading yok.
+
+ * Namespace scope --> C++'da var.
+ * file scope       --> C'de var.
+
+ * Block scope
+ * function scope
+ * function prototype scope
+ * class scope
+
+ Eğer scope'ları aynı, imzaları ve geri dönüşleri de aynıysa buna
+ Function reducleration denir. Overloading değildir.
+
+    int foo(int);   --> function Reduct
+    int foo(int);   --> function Reduct
+
+ ----------------------------------------------------
+
+    int foo(int);
+    double foo(int); --> Syntax hatası.
+
+  ----------------------------------------------------
+
+    int foo(int);
+    double foo(int,int); --> Overloading.
+
+   ----------------------------------------------------
+
+    int foo(int);         --> function Reduct
+    int foo(const int);   --> function Reduct
+
+   ----------------------------------------------------
+
+   typedef ile tür tanımlayıp aynı imzada kullansak Reduc olur.
+
+   ----------------------------------------------------
+
+  Derleyicinin fonksiyon seçemediği duruma ambiguity hatası verecek.
+
+   ----------------------------------------------------
+
+   void func(int);
+   void func(int,int);
+   void func(int,double);
+   void func(char*);
+
+    int türünden enum türüne otomatik dönüşüm yok.
+
+   1) Derleyici argümanlara hiç bakmadan aynı isimlilerin listesini çıkarıyor.
+   Bunlara Candidate function deniyor. Aynı scope'ta visibly olması yeterli.
+   2) Derleyici hangilerinin legal olarak çağırabileceğine bakılıyor. Mümkün
+   olmayan fonksiyonlar listeden çıkarılıyor. Viable function
+   3)
+
+   Riskler: Fonksiyon çağrısı yapılıyor, dilin kuralları tam olarak öğrenilmediği
+   için yanlış fonksiyon çağırılıyor.
+   * FO Resolution'da hata oluyor, kurallar tam bilinmediğinden, kodu legal kılmak
+   için rastgele değişiklik yapılıyor. Bu da doğru değil.
+
+-- FO için kalitesi en düşük tür variodic dönüşüm.
+   void func(int,...); --> Variadic function. Elipsis atomuyla bitmiş. printf, scanf, sprintf vb. C
+
+User-defined Conversion, variadic conversion'dan daha üstün. Bu iki dönüşüm dışındaki tüm dönüşümler standart conversion
+olarak geçer.
+
+12      --> int türünden sabit
+12u     --> unsigned int türünden sabit
+12L     --> long
+12ll    --> long long
+12ul    --> unsigned long
+12.34   --> double
+12.34f  --> float
+3.L     --> Long Double
+12e3    --> double
+0x1ac4u --> Unsigned int
+'A' --> C'de karakter sabitlerinin türü int iken, C++'ta türü char'dır.
+
+
+exact match - Tam uyum: Argüman türüyle parametre türünün aynı olması
+    1) Array Decay'i kapsıyor
+    2) const *T olması durumunda *T olmasını kapıyor.
+    3) Fonksiyon türünden fonksiyon adres türüne yapılan dönüşüm function to pointer conversion'ı kapsıyor.
+promotion - terfi:
+    a= int altı durumların inte yükselmesi durumu.
+    işaretli işaretsiz int türlerinden inte, short'tan inte, float'tan double, 3 char'dan int'e dönüşüm.
+    sadece float'tan double'a promotion.
+normal conversion:
+
+
+
+
+** Float'tan double'a promotion.
+   Double'dan long double'a normal conversion.
+   Bool'dan inte dönüşüm promotion'dur.
+
+ - Const int'ten int'e örtülü dönüşüm yoktur! Bu yüzden Function overloading yapılabilir.
+
+  - (int *) ve (const int *) sign'ları varsa ve gönderilen değer türü int ise 2 viable oluşur. Ama const int ise
+    yalnızca const olacağından 1 viable oluşmaktadır.
+
+** Standart kütüphane çok fazla yerde bize const overloading sunacak.
+
+** nullptr'nin türü nullptr_t'dir. Constant'tır. nullptr türünden int türüne dönüşüm yok.
+
+** Modern C++'ta asla ve asla nullptr yerine 0 kullanmayın.
+
+** Pointer'lardan bool türüne dönüşüm olduğunu da unutmayın.
+

@@ -1,0 +1,3 @@
+C:/Users/test2/Desktop/CppDersNotlari/Ders13_2kisim/cmake-build-debug/CMakeFiles/Ders13_2kisim.dir
+C:/Users/test2/Desktop/CppDersNotlari/Ders13_2kisim/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/test2/Desktop/CppDersNotlari/Ders13_2kisim/cmake-build-debug/CMakeFiles/rebuild_cache.dir
