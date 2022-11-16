@@ -287,7 +287,7 @@ void g1(base5 &base5ref)
 void f_3(){
     Der5 myder;
     g1(myder);   // ilgili class base olmasina ragmen virtual dismatch mekanizmasi devreye girer ve yazilacak
-    // olan deger derr4 sinifinin yazisi olur.
+    // olan deger der5 sinifinin yazisi olur.
     // ilgili kisim calistirildiginda gorulur ki, varsayilan arguman compile time'da alindigi icin ve polimorfik virtual
     // secim runtime'da yapildigi icin bu fonksiyon calistiginde gorulur ki der'in outputu verilir ama x degeri olarak
     // der'in degeri degil, base2in degeri girilir. Cunku g1 fonksiyonunda baz alinan class base class'tir.
@@ -647,23 +647,88 @@ void f_10()
     Dr1* dptr = new Dr1;
     delete dptr;    // Goruldugu gibi burada bir sorun yok, cunku der clas base class'in protected alandaki
     // destructor fonksiyonuna erisebiliyor
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// polimorfik siniflarin destructor'lari virtual olmali.
+// polimorfik siniflarin dtor'lari ya public virtual ya da protected non-virtual olmalı
 
+// Herb Sutter -- Cok onemli bir Cpp'ci. Microsoft compiler ekibinin basindaki kisi. Kitaplari da var.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// using keywoard'u cpp'de en cok overload edilen keywoard.
+
+class base15{
+    public:
+    void func(int){}
+};
+
+class der15 : public base15{
+    public:
+    void func(int x)    // SE1 -- SE etiketi, sonradan buraya eklendigini belirtir. Asagidaki SE etiketi takip edilebilir.
+    {
+        base15::func(x);
+    }
+
+    void func(double){}
+
+};
+
+// yukaridaki iki fonksiyon overload degildir cunku scope'lari farklidir! Bunu anlamak cok onemli.
+
+void f11()
+{
+    der15 myder15;
+    // bunlari overload nasil yapabilirim?
+    // yani 
+    myder15.func(10);  // --> Burada int parametreli fonksiyon cagiriliyorken
+    myder15.func(1.1); // --> burada double parametreli fonksiyonu nasil cagirabilirim!
+    // bunu yapabilmek icin turemis sinifin icerisinde bir int parametreli fonksiyon yazip base class'in fonksiyonunu cagirabilirim.
+    // SE1
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+// eger turemis isnif icinde using anahtar sozcugunu kullanarak taban sinifla nitelenmis bir isim kullanirsaniz ornegin using Base::func
+// tipki namespace'lerdeki using bildirimlerinde oldugu gibi taban sinif icindeki ismi turemis sinifin scope'una ejekte etmis oluyorsunuz. 
+
+class base16{
+public:
+    void func(int x)
+    {
+        std::cout << "base::func(int x) = " << x << "\n";
+    }
+};
+
+class der16 : public base16{
+public:
+    using base16::func; // bu sekilde base class'in fonksiyonlarini kullanabilirim.
+    void func(double x)
+    {
+        std::cout << "der::func(double x) = " << x << "\n";
+    }
+};
+
+void f12(){
+    der16 myder;
+    myder.func(19);
+    myder.func(104.43);
 }
 
 ////////////////////////////////////////////////////////////
 
-
-
 int main() {
-        // DENEME KADIRKIDIR DENEME KADIRKIDIR
-    f_9();
+    f12();
     return 0;
 }
 
 
 
-
+// inherited constructor!!!
 
 
 

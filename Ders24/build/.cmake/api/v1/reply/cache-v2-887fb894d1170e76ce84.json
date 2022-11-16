@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/abdulkadir/CppDersNotlari/Ders24/build"
+			"value" : "/home/abdulkadir/CppDersNotlar/Ders24/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -607,7 +607,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/abdulkadir/CppDersNotlari/Ders24"
+			"value" : "/home/abdulkadir/CppDersNotlar/Ders24"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1143,7 +1143,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/abdulkadir/CppDersNotlari/Ders24/build"
+			"value" : "/home/abdulkadir/CppDersNotlar/Ders24/build"
 		},
 		{
 			"name" : "Ders24_SOURCE_DIR",
@@ -1155,7 +1155,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/abdulkadir/CppDersNotlari/Ders24"
+			"value" : "/home/abdulkadir/CppDersNotlar/Ders24"
 		}
 	],
 	"kind" : "cache",

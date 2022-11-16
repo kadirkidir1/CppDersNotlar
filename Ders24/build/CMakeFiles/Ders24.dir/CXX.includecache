@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/abdulkadir/CppDersNotlari/Ders24/Car.h
+/home/abdulkadir/CppDersNotlar/Ders24/Car.h
 iostream
 -
 string
@@ -14,7 +14,7 @@ string
 random
 -
 
-/home/abdulkadir/CppDersNotlari/Ders24/main.cpp
+/home/abdulkadir/CppDersNotlar/Ders24/main.cpp
 iostream
 -
 string
@@ -22,5 +22,5 @@ string
 random
 -
 Car.h
-/home/abdulkadir/CppDersNotlari/Ders24/Car.h
+/home/abdulkadir/CppDersNotlar/Ders24/Car.h
 

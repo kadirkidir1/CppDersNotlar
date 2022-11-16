@@ -1,7 +1,7 @@
 [
 {
-  "directory": "/home/abdulkadir/CppDersNotlari/Ders24/build",
-  "command": "/usr/bin/g++    -g   -std=gnu++2a -o CMakeFiles/Ders24.dir/main.cpp.o -c /home/abdulkadir/CppDersNotlari/Ders24/main.cpp",
-  "file": "/home/abdulkadir/CppDersNotlari/Ders24/main.cpp"
+  "directory": "/home/abdulkadir/CppDersNotlar/Ders24/build",
+  "command": "/usr/bin/g++    -g   -std=gnu++2a -o CMakeFiles/Ders24.dir/main.cpp.o -c /home/abdulkadir/CppDersNotlar/Ders24/main.cpp",
+  "file": "/home/abdulkadir/CppDersNotlar/Ders24/main.cpp"
 }
 ]
