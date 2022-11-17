@@ -1,0 +1,3 @@
+/home/abdulkadir/CppDersNotlar/Ders25/build/CMakeFiles/rebuild_cache.dir
+/home/abdulkadir/CppDersNotlar/Ders25/build/CMakeFiles/edit_cache.dir
+/home/abdulkadir/CppDersNotlar/Ders25/build/CMakeFiles/Ders25.dir

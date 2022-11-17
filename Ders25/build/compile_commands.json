@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/abdulkadir/CppDersNotlar/Ders25/build",
+  "command": "/usr/bin/g++    -g   -std=gnu++2a -o CMakeFiles/Ders25.dir/main.cpp.o -c /home/abdulkadir/CppDersNotlar/Ders25/main.cpp",
+  "file": "/home/abdulkadir/CppDersNotlar/Ders25/main.cpp"
+}
+]
