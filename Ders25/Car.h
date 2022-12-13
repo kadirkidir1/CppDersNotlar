@@ -2,8 +2,8 @@
 // Created by test2 on 8/4/2022.
 //
 
-#ifndef DERS24_CAR_H
-#define DERS24_CAR_H
+#ifndef DERS25_CAR_H
+#define DERS25_CAR_H
 
 #include <iostream>
 #include <string>
@@ -11,6 +11,7 @@
 
 class car4{
 public:
+    virtual void print(std::ostream&)const = 0;
     virtual car4* clone() = 0;
     virtual void start() = 0;   // taban sinif fonksiyonlari pure virtual yapildi.
     virtual void run() = 0;
@@ -19,7 +20,12 @@ public:
 
 class Bmw3 : public car4{
 public:
-    car4* clone()override{
+    virtual void print(std::ostream& os)const override
+    {
+        os << " I Am BMW\n";
+    }
+
+    Bmw3* clone()override{
         //return new Bmw3;    // boyle yapsaydim def ctor ile init edecektim.
         return new Bmw3(*this); // boyle yapinca ise oncekinin aynisini kopyaladim cunku copy ctor.
     }
@@ -37,6 +43,10 @@ public:
 
 class Fiat3 : public car4{
 public:
+    virtual void print(std::ostream& os)const override
+    {
+        os << " I Am fiat\n";
+    }
     car4* clone()override{
         //return new Bmw3;    // boyle yapsaydim def ctor ile init edecektim.
         return new Fiat3(*this); // boyle yapinca ise oncekinin aynisini kopyaladim cunku copy ctor.
@@ -57,7 +67,10 @@ public:
     void open_sunroof(){
 
     }
-
+    virtual void print(std::ostream& os)const override
+    {
+        os << " I Am volvo\n";
+    }
     car4* clone()override{
         //return new Bmw3;    // boyle yapsaydim def ctor ile init edecektim.
         return new Volvo3(*this); // boyle yapinca ise oncekinin aynisini kopyaladim cunku copy ctor.
@@ -76,7 +89,10 @@ public:
 
 class VolvoS80 : public Volvo3{
 public:
-
+    virtual void print(std::ostream&os)const override
+    {
+        os << " I Am volvos80\n";
+    }
     car4* clone()override{
         //return new Bmw3;    // boyle yapsaydim def ctor ile init edecektim.
         return new VolvoS80(*this); // boyle yapinca ise oncekinin aynisini kopyaladim cunku copy ctor.
@@ -95,7 +111,10 @@ public:
 
 class Toyota3 : public car4{
 public:
-
+    virtual void print(std::ostream& os)const override
+    {
+        os << " I Am toyota\n";
+    }
     car4* clone()override{
         //return new Bmw3;    // boyle yapsaydim def ctor ile init edecektim.
         return new Toyota3(*this); // boyle yapinca ise oncekinin aynisini kopyaladim cunku copy ctor.
@@ -114,7 +133,10 @@ public:
 
 class Dacia3 : public car4{
 public:
-
+    virtual void print(std::ostream& os)const override
+    {
+        os << " I Am Dacia\n";
+    }
     car4* clone()override{
         //return new Bmw3;    // boyle yapsaydim def ctor ile init edecektim.
         return new Dacia3(*this); // boyle yapinca ise oncekinin aynisini kopyaladim cunku copy ctor.
@@ -146,4 +168,10 @@ car4* create_random_car3()
     }
 }
 
-#endif //DERS24_CAR_H
+std::ostream& operator<<(std::ostream& os, const car4& other)
+{
+    other.print(os); // isin icinde os da var.
+    return os;
+}
+
+#endif //DERS25_CAR_H
