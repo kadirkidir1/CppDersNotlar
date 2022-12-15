@@ -2,8 +2,8 @@
 // Created by test2 on 8/4/2022.
 //
 
-#ifndef DERS25_CAR_H
-#define DERS25_CAR_H
+#ifndef DERS26_CAR_H
+#define DERS26_CAR_H
 
 #include <iostream>
 #include <string>
@@ -65,7 +65,7 @@ public:
 class Volvo3 : public car4{
 public:
     void open_sunroof(){
-
+        std::cout << " volvo3 cam tavani acildi \n";
     }
     virtual void print(std::ostream& os)const override
     {
@@ -174,4 +174,4 @@ std::ostream& operator<<(std::ostream& os, const car4& other)
     return os;
 }
 
-#endif //DERS25_CAR_H
+#endif //DERS26_CAR_H
