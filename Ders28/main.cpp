@@ -10,7 +10,8 @@
 //Bu derste cok onemli olan exeption handling'ten bahsedilecek.
 // Her C++ programcisinin hakim olmasi gereken cok muhim bir konudur kendileri.
 
-// 1. run time'da isini yapmasi gereken bir kod isini yapamiyor cunku kodu yanlis yazilmis. boyle hatalara programlama hatasi deniyor genel olarak.
+// 1. run time'da isini yapmasi gereken bir kod isini yapamiyor cunku kodu yanlis yazilmis. boyle hatalara programlama hatasi deniyor
+// genel olarak.
 // Assertions. Runtime assertion ve static assertions'lar var. Kodlama hatasini bulmaya yonelik kurallar.
 
 // 2. bir fonksiyonun isinin beklenmeyen bir sekilde yapamadiginda ne yapilabilecegiyle ilgili. Yani exeption. Turkcesi "istisna" demek. 
@@ -29,10 +30,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Ctor'larin hayata gecirilmesi Exeption'larin kullaniminda cok onemlidir.
 //  Demekki class olustururken try-catch'leri kullanmak onemli.
-// !!!!! Mudahale etmeyeceginiz bir exception'i yakalamaya calisin. 
+// !!!!! Mudahale etmeyeceginiz bir exception'i yakalamaya calismayin.
 
 // 3 onemli keywoard vardir. Throw, try ve catch
-// exception throw etmek ne demek. fonksiyon isini yapamadiginda bir nesnse olusturuyor bu nesnenin varlik nedeni daha ust katmandaki kodlara fonksiyonun isini yapamadigini anlatmak olan bir nesne
+// exception throw etmek ne demek. fonksiyon isini yapamadiginda bir nesnse olusturuyor bu nesnenin varlik nedeni
+// daha ust katmandaki kodlara fonksiyonun isini yapamadigini anlatmak olan bir nesne
 // fonksiyonumuz bu nesneyi yukariya firlatiyor. Kim mudahale etmek isterse bu nesneyi yakalasin ve mudahale etsin.
 // ex. throw etmek için ex. object gerekiyor.
 
@@ -94,7 +96,7 @@ void fmain_1()
 void f8()
 {
     std::cout << "f8 cagirildi \n";
-    throw 1;
+    throw 1.2f;
     std::cout << "f8'ten cikiliyor \n";
 }
 
@@ -186,7 +188,8 @@ void fmain_4()
 
 // Herhangi bir class gonderebilecegimiz gibi burada std::exception class'ini da kullanabiliriz. Bu class bize bir takim seyleri garanti
 // etmistir
-// her zaman catch parametrelerini referans yapiyoruz. Ve eger bir sey degistirmeyeceksek const'a dikkat edelim. Seyrek karsimiza cikar degistirmek.
+// her zaman catch parametrelerini referans yapiyoruz. Ve eger bir sey degistirmeyeceksek const'a dikkat edelim. Seyrek karsimiza cikar
+// degistirmek.
 
 void f10()
 {
@@ -267,10 +270,314 @@ void fmain_6()
     }
 */
 
+//
+// * BURADAN USTTEKILER DERS 27 iken buradan sonraki kısım ders28 olacaktır.
+// * Exception konusu bölünmemesi için bu şekilde yaptım.
+// *
 
-int main() 
-{   
-    fmain_6();
+void func()
+{
+    try
+    {
+        throw std::out_of_range("range hatasi");
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << "Hata func içinde yakalandı: " << ex.what() << "\n";
+
+        // İki farklı throw statement arasındaki farkı görünüz.
+         throw ex;
+//        throw;
+    }
+}
+
+int main_7()
+{
+
+    try
+    {
+        func();
+    }
+    catch (const std::out_of_range&)
+    {
+        std::cout << "Hata yakalandı (std::out_of_range)\n";
+    }
+    catch (const std::exception&)
+    {
+        std::cout << "Hata yakalandı (std::exception)\n";
+    }
+
+    return 0;
+}
+
+// burada su anlatilmak isteniyor. direkt olarak throw edersek, mecvut yakalanmis olan exception'i
+// throw etmis olacagiz ve bu sebepten oturu out_of_range yakalanmis olacak. Ama bunu yapmazsak, throw ex; seklinde
+// yeni bir nesne olusturursak, burada bu sefer, out_of_range exception'ı kaybedilmis olacagindan, exception block'una
+// dusecektir.
+
+
+class NecEx
+{
+public:
+    NecEx() = default;
+
+    NecEx(const NecEx&)
+    {
+        std::cout << "copy ctor\n";
+    }
+};
+
+void func_2()
+{
+    try
+    {
+        throw NecEx{};
+    }
+    catch (const NecEx& ex)
+    {
+        std::cout << "hata func icinde yakalandiii\n";
+        throw ex;
+    }
+
+    // Eger burada ex'ler kaldirilirsa, copy ctor'a girmedigi gorulur.
+    // yani burada asil olay, rethrow etmek ya da etmemek.
+}
+
+int main_8()
+{
+    try
+    {
+        func_2();
+    }
+    catch (const NecEx& ex)
+    {
+        std::cout << "hata main icinde yakalandi\n";
+    }
+
+    return 0;
+}
+
+//-----------------------------------------------------------------------------//
+
+// rethrow statement'in yalnizca catch blogu icerisinde olmasi gerekmiyor.
+
+void foo() {
+    std::cout << "foo cagirildi\n";
+    throw;
+}
+
+void func_3() {
+    try {
+        throw std::runtime_error{"kadir kidirov"};
+    } catch (const std::exception& ex) {
+        foo();
+    }
+}
+
+void main_9() {
+    try {
+        func_3();
+    } catch (const std::exception& ex) {
+        std::cout << ex.what() << "\n";
+    }
+}
+
+//----------------------------------------------------------------------------//
+
+//exception dispatcher
+//önemli bir exception idiyomu
+// yani bircok yerde bunlari yazmaktansa, ayni metot ile birden fazla yerde
+// handle exception yapabilirim
+
+
+
+class NecException {
+
+};
+
+class ErgException {
+
+};
+
+class CSDException {
+
+};
+
+void handle_exception()
+{
+    try {
+        throw;
+    }
+    catch (NecException& e) {
+
+    }
+    catch (ErgException e) {
+
+    }
+    catch (CSDException e) {
+
+    }
+}
+
+void func_4() {
+    try {
+
+    } catch (...) { // boyle uc noktali olunca catch all deniyor.
+        handle_exception();
+    }
+}
+
+// yukarida bir exception idiomu vardir.
+
+//-----------------------------------------------------------------------------//
+
+// Exception class'larinin copy ctor ya da move ctor'lari exception throw etmemeli.
+
+//-----------------------------------------------------------------------------//
+
+struct A {
+    A() {
+        std::cout << " A Ctor\n";
+    }
+
+    ~A() {
+        std::cout << " A dtor\n";
+    }
+};
+
+struct B {
+    B() {
+        std::cout << " B Ctor\n";
+    }
+
+    ~B() {
+        std::cout << " B dtor\n";
+    }
+};
+
+struct C {
+    C() {
+        std::cout << " C Ctor\n";
+    }
+
+    ~C() {
+        std::cout << " C dtor\n";
+    }
+};
+
+void baz() {
+    std::cout << "baz cagrildi\n";
+    C cx;
+
+    throw std::runtime_error{"kadir kidirov1"};
+    std::cout << "baz sona erdi\n";
+}
+
+void bar() {
+    std::cout << "bar cagrildi\n";
+    B bx;
+    baz();
+    std::cout << "bar sona erdi\n";
+}
+
+void foo_4() {
+    std::cout << "foo cagrildi\n";
+    A ax;
+    bar();
+    std::cout << "foo sona erdi\n";
+}
+
+void main_10() {
+    try {
+        foo_4();
+    } catch (const std::exception& ex) {
+        (void)getchar();
+        std::cout << ex.what() << "\n";
+    }
+}
+
+// Burada anlatilmak istenen, otomatik omurlu nesnelerde hata yakalandiginda,
+// otomatik omurlu nesnelerin destructor'lari cagirilarak, memory geri verilir.
+// buna stack unwinding deniyor.
+
+//---------------------------------------------------------------------------------//
+
+// Garanti seviyeleri
+
+// No guarantee --> exeption gonderilirse basimiza her sey gelebilir
+// Basic guarantee --> Bunu anlamak cok onemli. Kabul edilebilir minimal garanti anlaminda.
+//                     Eger calisma sirasinda herhangi bir throw olursa, hicbir  kaynak sizdirilmayacak
+//                     Bu garanti turune no-leak guarantee de deniyor.
+
+
+// Strong Guarantee(commit & rollback guarentee) --> exception'la cikildiginda kaynak sizdirilmadigi
+//                    gibi, state'inde de bir degisiklik olmayacak. Nesne ya da nesneler, o operasyona
+//                    baslamadan onceki durumunu koruyacak. Yani ya isleme devam edecek, edemiyorsa da
+//                    exception'dan onceki adima geri donecek. Basic guarantee'de bu yok iste.
+
+#include <memory>
+#include <iostream>
+#include <vector>
+#include <fstream>
+
+using namespace std;
+
+class Message{
+
+public:
+    std::string to_string ()const {
+        // Throw edebilir ya da etmeyebilir
+        return "asdasd";
+    }
+};
+
+void log(const std::vector<Message>& mvec) {
+    std::ofstream log_file;
+    log_file.open("log.txt", std::ios_base::app);
+
+    std::string result;
+
+    for (const auto& m : mvec)
+        result += m.to_string();
+
+    log_file << result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main()
+{
+    main_10();
     return 0;
 }
 
